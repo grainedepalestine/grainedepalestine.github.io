@@ -1,17 +1,18 @@
 // Liste des activités affichées sur l'index général.
 // Pour ajouter une activité : ajouter une ligne dans la bonne unité.
-//   { titre: "Épeler en français", lien: "epeler/", icone: "🔤" }
+//   { titre: "Épeler en français", ar: "التهجئة بالفرنسية", lien: "epeler/", icone: "🔤" }
 // Sans « lien », la vignette s'affiche grisée avec « Bientôt ».
+// « ar » = traduction arabe affichée sous le titre français.
 window.ACTIVITES = [
-  { unite: "Unité 0", titre: "Les lettres", activites: [] },
-  { unite: "Unité 1", titre: "Bonjour !", activites: [
-    { titre: "Épeler en français", lien: "epeler/", icone: "🔤" }
+  { unite: "Unité 0", titre: "Les lettres", ar: "الحروف", activites: [
+    { titre: "Épeler en français", ar: "التهجئة بالفرنسية", lien: "epeler/", icone: "🔤" }
   ] },
-  { unite: "Unité 2", titre: "Quel jour ? Quelle heure ?", activites: [] },
-  { unite: "Unité 3", titre: "À l'aéroport", activites: [] },
-  { unite: "Unité 4", titre: "Je cherche la gare", activites: [] },
-  { unite: "Unité 5", titre: "À la boulangerie", activites: [] },
-  { unite: "Unité 6", titre: "Au supermarché", activites: [] },
-  { unite: "Unité 7", titre: "J'ai mal", activites: [] },
-  { unite: "Unité 8", titre: "Se soigner", activites: [] }
+  { unite: "Unité 1", titre: "Bonjour !", ar: "مرحبًا!", activites: [] },
+  { unite: "Unité 2", titre: "Quel jour ? Quelle heure ?", ar: "أيّ يوم؟ كم الساعة؟", activites: [] },
+  { unite: "Unité 3", titre: "À l'aéroport", ar: "في المطار", activites: [] },
+  { unite: "Unité 4", titre: "Je cherche la gare", ar: "أبحث عن محطة القطار", activites: [] },
+  { unite: "Unité 5", titre: "À la boulangerie", ar: "في المخبز", activites: [] },
+  { unite: "Unité 6", titre: "Au supermarché", ar: "في السوبرماركت", activites: [] },
+  { unite: "Unité 7", titre: "J'ai mal", ar: "أشعر بألم", activites: [] },
+  { unite: "Unité 8", titre: "Se soigner", ar: "العلاج", activites: [] }
 ];
