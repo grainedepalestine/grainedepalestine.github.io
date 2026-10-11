@@ -114,6 +114,28 @@ nav{display:flex;justify-content:center;gap:clamp(14px,5vw,40px);flex-wrap:wrap}
 .final .big{font-family:var(--hand);font-size:3rem;color:var(--forest);line-height:1}
 footer{border-top:1px solid var(--line);padding-top:12px;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 footer .btn{text-decoration:none;font-size:.95rem;white-space:normal}
+/* Arabic name -> French / passport spellings */
+.field input.arin{letter-spacing:0;text-transform:none;font-family:var(--ar);font-weight:700}
+.sugg{border:3px solid var(--teal);background:var(--ok-soft);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.sugg p{margin:0}
+.sugg .ar{display:block}
+.srow{display:flex;flex-direction:column;gap:6px}
+.srow .who{font-family:var(--ar);font-size:1.5rem;font-weight:700;color:var(--forest);direction:rtl;unicode-bidi:isolate;align-self:flex-start}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font-family:var(--body);font-size:1.3rem;font-weight:700;border:2px solid var(--forest);background:#fff;color:var(--ink);border-radius:14px;padding:8px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.15}
+.opt small{font-size:.75rem;font-weight:400;color:#56645e}
+.opt:hover{background:var(--mist)}
+.opt:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.passport{border-left:5px solid var(--red);background:#fff;padding:8px 12px;border-radius:0 12px 12px 0;font-size:1rem}
+.papers{border:3px solid var(--forest);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.papers h3{font-family:var(--hand);font-size:1.4rem;margin:0;color:var(--forest);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.papers h3 .ar{font-family:var(--ar);font-size:1.1rem}
+.papers p{margin:0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pf{display:flex;gap:10px;flex-wrap:wrap}
+.pf label{flex:1 1 200px;display:flex;flex-direction:column;gap:4px;font-weight:700}
+.pf label .ar{font-weight:400;font-size:.95rem}
+.pf input{font-family:var(--body);font-size:1.4rem;font-weight:700;letter-spacing:.04em;padding:8px 12px;border:3px solid var(--forest);border-radius:12px;min-width:0;width:100%}
+.pf input:focus{outline:3px solid var(--leaf);outline-offset:2px}
 @media (max-width:520px){.logo-full{display:none}.kb{grid-template-columns:repeat(7,1fr)}.tile{width:70px}.tile .L{font-size:2.2rem}.ring{width:72px;height:72px}}
 @media (prefers-reduced-motion:reduce){.tile{transition:none}.tile.on{transform:none}}
 </style>
@@ -149,11 +171,12 @@ footer .btn{text-decoration:none;font-size:.95rem;white-space:normal}
   <!-- MON NOM -->
   <section class="panel" id="p-nom" role="tabpanel" aria-labelledby="t-nom">
     <div class="h2"><h2>Épelle ton nom</h2><span class="ar">تهجَّ اسمك</span></div>
-    <p class="hint"><span>Écris ton prénom ou ton nom. Clique sur une lettre pour l’écouter.</span><span class="ar">اكتب اسمك أو اسم عائلتك. اضغط على حرف لتسمعه.</span></p>
+    <p class="hint"><span>Écris ton prénom ou ton nom, en français ou en arabe. Clique sur une lettre pour l’écouter.</span><span class="ar">اكتب اسمك أو اسم عائلتك، بالفرنسية أو بالعربية. اضغط على حرف لتسمعه.</span></p>
     <div class="field">
       <label for="nameIn" class="ar" hidden>الاسم</label>
-      <input id="nameIn" autocomplete="off" spellcheck="false" maxlength="24" value="Amal" aria-label="Ton prénom ou ton nom">
+      <input id="nameIn" autocomplete="off" spellcheck="false" maxlength="24" value="Amal" dir="auto" aria-label="Ton prénom ou ton nom">
     </div>
+    <div class="sugg" id="sugg" aria-live="polite" hidden></div>
     <div class="tiles" id="nameTiles" aria-live="polite"></div>
     <div class="note" id="dblNote" hidden>
       <b>Double !</b> Deux lettres pareilles : on dit « double » + la lettre une seule fois. <span id="dblEx"></span>
@@ -167,6 +190,17 @@ footer .btn{text-decoration:none;font-size:.95rem;white-space:normal}
     <div class="note" id="practiceNote" hidden>
       Dis chaque lettre à voix haute. Puis clique sur la lettre pour vérifier.
       <span class="ar">قل كل حرف بصوت عالٍ، ثم اضغط على الحرف لتتحقّق.</span>
+    </div>
+    <div class="papers" id="papers">
+      <h3><span>📄 Mon nom sur mes papiers</span><span class="ar">اسمي في وثائقي</span></h3>
+      <p><span>Recopie ton nom et ton prénom comme sur ton passeport ou ton titre de séjour.</span><span class="ar">انسخ اسم عائلتك واسمك كما هما في جواز سفرك أو بطاقة إقامتك.</span></p>
+      <div class="pf">
+        <label>NOM <span class="ar">اسم العائلة</span><input id="papNom" autocomplete="off" spellcheck="false" maxlength="30" style="text-transform:uppercase"></label>
+        <label>Prénom <span class="ar">الاسم</span><input id="papPrenom" autocomplete="off" spellcheck="false" maxlength="30"></label>
+      </div>
+      <div class="row">
+        <button class="btn" id="papSpell">▶ Épeler mon nom <span class="ar">تهجَّ اسمي</span></button>
+      </div>
     </div>
   </section>
 
@@ -218,7 +252,7 @@ footer .btn{text-decoration:none;font-size:.95rem;white-space:normal}
   </section>
 
   <footer>
-    <span>Graines de Palestine · Premiers pas en France · Unité 1</span>
+    <span>Graines de Palestine · Premiers pas en France · Unité 0</span>
     <a class="btn ghost" id="dl" href="index.html" download="Epeler_en_francais_Graines_de_Palestine.html">⬇ Télécharger pour utiliser sans internet <span class="ar">حمّل التطبيق لاستعماله بدون إنترنت</span></a>
     <span id="offlineMsg" hidden>Version téléchargée : fonctionne sans internet. <span class="ar">نسخة محمّلة: تعمل بدون إنترنت.</span></span>
   </footer>
@@ -445,6 +479,226 @@ buildKb();
   if(location.protocol==="file:"){ dl.hidden=true; msg.hidden=false; return; }
   dl.href = location.href.split("#")[0].split("?")[0];
 })();
+
+/* ---------- Arabic first name -> French / passport (English) spellings ----------
+   One line per name: arabic | French spelling(s) | passport spelling(s). To be proofread. */
+const PRENOMS_AR = `
+محمد|Mohamed|Mohammed,Mohammad,Muhammad
+أحمد|Ahmed|Ahmad
+محمود|Mahmoud|Mahmoud
+مصطفى|Moustafa|Mustafa
+يوسف|Youssef|Yousef,Yusuf
+إبراهيم|Ibrahim|Ibrahim
+إسماعيل|Ismail|Ismail
+عمر|Omar|Omar
+علي|Ali|Ali
+حسن|Hassan|Hasan,Hassan
+حسين|Houssein|Hussein
+خالد|Khaled|Khaled,Khalid
+سامي|Sami|Sami
+رامي|Rami|Rami
+كريم|Karim|Kareem,Karim
+عيسى|Issa|Issa,Eissa
+موسى|Moussa|Mousa,Musa
+يحيى|Yahia|Yahya
+زكريا|Zakaria|Zakaria,Zakariya
+سليمان|Souleiman|Suleiman,Sulaiman
+داود|Daoud|Dawood,Dawoud
+آدم|Adam|Adam
+عبد الله|Abdallah|Abdullah,Abdallah
+عبد الرحمن|Abderrahmane|Abdulrahman,Abdelrahman
+عبد الكريم|Abdelkarim|Abdulkareem
+عبد العزيز|Abdelaziz|Abdulaziz
+طارق|Tarek|Tareq,Tariq
+ياسر|Yasser|Yaser,Yasser
+سعيد|Said|Saeed,Said
+سعد|Saad|Saad
+فادي|Fadi|Fadi
+رائد|Raed|Raed
+وليد|Walid|Waleed,Walid
+بلال|Bilal|Bilal
+جمال|Jamal|Jamal
+كمال|Kamal|Kamal
+نضال|Nidal|Nedal,Nidal
+جهاد|Jihad|Jihad
+عماد|Imad|Emad,Imad
+إياد|Iyad|Eyad,Iyad
+زياد|Ziad|Ziad,Ziyad
+مراد|Mourad|Murad
+سامر|Samer|Samer
+ماهر|Maher|Maher
+باسل|Bassel|Basel,Bassel
+باسم|Bassem|Basem,Bassem
+هاني|Hani|Hani
+مازن|Mazen|Mazen
+عادل|Adel|Adel
+نبيل|Nabil|Nabeel,Nabil
+جميل|Jamil|Jameel,Jamil
+شادي|Chadi|Shadi
+صالح|Saleh|Saleh,Salih
+صلاح|Salah|Salah
+فارس|Fares|Fares,Faris
+أنس|Anas|Anas
+حمزة|Hamza|Hamza,Hamzah
+أسامة|Oussama|Osama,Usama
+معاذ|Mouad|Moath,Muath
+عثمان|Othmane|Othman,Osman
+قاسم|Kassem|Qasem,Qassem
+منير|Mounir|Munir
+ناصر|Nasser|Naser,Nasser
+رشيد|Rachid|Rashid,Rasheed
+هشام|Hicham|Hisham
+وسيم|Wassim|Waseem,Wasim
+أيمن|Aymen|Ayman
+عمار|Ammar|Ammar
+مالك|Malek|Malek,Malik
+ليث|Laith|Laith,Layth
+سيف|Seif|Saif,Sayf
+أمير|Amir|Ameer,Amir
+جواد|Jawad|Jawad
+عدي|Oudai|Odai,Uday
+فاطمة|Fatima|Fatima,Fatma
+مريم|Meriem|Mariam,Maryam
+عائشة|Aicha|Aisha,Aesha
+خديجة|Khadija|Khadija,Khadijeh
+زينب|Zineb|Zainab,Zeinab
+آمنة|Amina|Amna,Amina
+أمينة|Amina|Amina
+سارة|Sarah|Sara,Sarah
+هبة|Hiba|Heba,Hiba
+لينا|Lina|Lina
+نور|Nour|Noor,Nour
+رنا|Rana|Rana
+رهف|Rahaf|Rahaf
+ريم|Rim|Reem
+ليلى|Leila|Layla,Leila
+ياسمين|Yasmine|Yasmin,Yasmeen
+سلمى|Salma|Salma
+هدى|Houda|Huda,Hoda
+جنى|Jana|Jana
+دانا|Dana|Dana
+رزان|Razan|Razan
+روان|Rawan|Rawan
+ديما|Dima|Dima
+لمى|Lama|Lama
+سما|Sama|Sama
+ملك|Malak|Malak
+غدير|Ghadir|Ghadeer
+آية|Aya|Aya,Ayah
+إسراء|Israa|Esraa,Israa
+آلاء|Alaa|Alaa
+دعاء|Douaa|Duaa,Doaa
+أسماء|Asma|Asmaa,Asma
+بيان|Bayan|Bayan
+حلا|Hala|Hala
+نادية|Nadia|Nadia
+سعاد|Souad|Suad,Souad
+منى|Mona|Mona,Muna
+سهى|Souha|Suha
+رغد|Raghad|Raghad
+تسنيم|Tasnim|Tasneem
+شهد|Chahd|Shahd
+جود|Joud|Joud,Jood
+حنين|Hanine|Haneen
+رشا|Racha|Rasha
+وفاء|Wafa|Wafaa
+سناء|Sanaa|Sanaa
+حنان|Hanane|Hanan
+إيمان|Imane|Eman,Iman
+صفاء|Safa|Safaa
+نسرين|Nesrine|Nisreen,Nesreen
+عبير|Abir|Abeer
+أمل|Amal|Amal
+سلوى|Salwa|Salwa
+لبنى|Loubna|Lubna
+ندى|Nada|Nada
+رحمة|Rahma|Rahma,Rahmeh
+بسمة|Bassma|Basma
+فرح|Farah|Farah
+شيماء|Chaima|Shaimaa,Shaima
+هند|Hind|Hind
+نجلاء|Najla|Najlaa
+أبو|Abou|Abu
+`.trim().split("\n").map(line => {
+  const [ar, fr, en] = line.split("|");
+  return { ar, fr: fr.split(","), en: en.split(",") };
+});
+function normAr(t){
+  return t.replace(/[ً-ْٰـ]/g, "")
+          .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه")
+          .replace(/\s+/g, " ").trim();
+}
+PRENOMS_AR.forEach(p => { p.key = normAr(p.ar); });
+const isArabic = t => /[؀-ۿ]/.test(t);
+const sugg = document.getElementById("sugg");
+const PASSPORT_MSG = '<p class="passport">🔎 Sur ton passeport ou ton titre de séjour, l’orthographe est peut-être différente : regarde-le, ou demande à ton professeur. <span class="ar">قد يكون اسمك مكتوبًا بشكل آخر في جواز سفرك أو بطاقة إقامتك: انظر إليه، أو اسأل أستاذك.</span></p>';
+function spellings(p){
+  // French and passport spellings, merged when they are the same
+  const out = [];
+  p.fr.forEach(x => out.push({ w: x, tag: "en français", tagAr: "بالفرنسية" }));
+  p.en.forEach(x => {
+    const same = out.find(o => o.w.toLowerCase() === x.toLowerCase());
+    if(same){ same.tag = "français · passeport"; same.tagAr = "بالفرنسية وفي الجواز"; }
+    else out.push({ w: x, tag: "passeport (anglais)", tagAr: "في الجواز (بالإنجليزية)" });
+  });
+  return out;
+}
+function findNames(t){
+  const k = normAr(t);
+  if(!k) return [];
+  const exact = PRENOMS_AR.filter(p => p.key === k);
+  if(exact.length) return exact.slice(0, 1);
+  // several words: try the first two, then the first one (e.g. "عبد الله" + family name)
+  const w = k.split(" ");
+  for(const n of [2, 1]){
+    if(w.length > n){ const hit = PRENOMS_AR.filter(p => p.key === w.slice(0, n).join(" ")); if(hit.length) return hit.slice(0, 1); }
+  }
+  // still typing: names that start with what was typed
+  return PRENOMS_AR.filter(p => p.key.startsWith(k)).slice(0, 4);
+}
+function renderSugg(){
+  const t = nameIn.value;
+  const ar = isArabic(t);
+  nameIn.classList.toggle("arin", ar);
+  nameTiles.hidden = ar;
+  if(!ar){ sugg.hidden = true; sugg.innerHTML = ""; return; }
+  const found = findNames(t);
+  let html = "";
+  if(found.length){
+    html += '<p><b>Ton prénom en lettres françaises : choisis.</b><span class="ar">اسمك بالحروف الفرنسية: اختر.</span></p>';
+    found.forEach(p => {
+      html += `<div class="srow"><span class="who">${p.ar}</span><div class="opts">` +
+        spellings(p).map(o => `<button class="opt" data-w="${o.w}">${o.w}<small>${o.tag} · <span class="ar" style="display:inline">${o.tagAr}</span></small></button>`).join("") +
+        `</div></div>`;
+    });
+  } else {
+    html += '<p><b>Je ne trouve pas ce prénom.</b><span class="ar">لم أجد هذا الاسم.</span></p>';
+  }
+  sugg.innerHTML = html + PASSPORT_MSG;
+  sugg.hidden = false;
+}
+sugg.addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if(!b) return;
+  nameIn.value = b.dataset.w;
+  renderName(); renderSugg();
+  document.getElementById("spellAll").click();
+});
+nameIn.addEventListener("input", renderSugg);
+
+/* ---------- Mon nom sur mes papiers ---------- */
+const papNom = document.getElementById("papNom"), papPrenom = document.getElementById("papPrenom");
+try{ const sv = JSON.parse(localStorage.getItem("gdp-papiers") || "{}"); papNom.value = sv.nom || ""; papPrenom.value = sv.prenom || ""; }catch(e){}
+function savePapers(){ try{ localStorage.setItem("gdp-papiers", JSON.stringify({ nom: papNom.value, prenom: papPrenom.value })); }catch(e){} }
+papNom.addEventListener("input", savePapers); papPrenom.addEventListener("input", savePapers);
+document.getElementById("papSpell").addEventListener("click", () => {
+  const full = (papNom.value.trim().toUpperCase() + " " + papPrenom.value.trim()).trim();
+  if(!full){ papNom.focus(); return; }
+  nameIn.value = full.slice(0, 24);
+  renderName(); renderSugg();
+  nameIn.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("spellAll").click();
+});
+
 /* back to the general index: hidden in the downloaded (offline) copy */
 if(location.protocol==="file:") document.getElementById("home").hidden=true;
 </script>
