@@ -7,7 +7,7 @@
 <style>
   :root {
     --bg: #f7f4ec; --card: #ffffff; --ink: #2b2b2b; --muted: #6b6b6b;
-    --green: #2f7d4a; --red: #c0392b; --line: #e3ddd0;
+    --green: #2f7d4a; --green-soft: #e6f2ea; --red: #c0392b; --line: #e3ddd0;
   }
   * { box-sizing: border-box; }
   body {
@@ -16,14 +16,37 @@
     line-height: 1.5;
   }
   .band { height: 8px; background: linear-gradient(90deg, #000 0 25%, #fff 25% 50%, var(--green) 50% 75%, var(--red) 75%); }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 48px; }
+  main { max-width: 860px; margin: 0 auto; padding: 28px 16px 48px; }
+  header { text-align: center; margin-bottom: 28px; }
   h1 { font-size: 2rem; margin: 0 0 4px; color: var(--green); }
-  .sub { color: var(--muted); margin: 0 0 32px; font-size: 1.1rem; }
-  h2 { font-size: 1.2rem; margin: 0 0 12px; }
-  .list { display: grid; gap: 12px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-    padding: 16px 20px; color: var(--muted);
+  .sub { color: var(--muted); margin: 0; font-size: 1.05rem; }
+
+  .search {
+    display: block; width: 100%; margin: 0 0 28px; padding: 14px 16px;
+    font-size: 1.1rem; border: 2px solid var(--line); border-radius: 12px; background: var(--card);
+  }
+  .search:focus { outline: none; border-color: var(--green); }
+
+  section.unit { margin-bottom: 28px; }
+  section.unit h2 {
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    font-size: 1.25rem; margin: 0 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--line);
+  }
+  section.unit h2 .num {
+    background: var(--green); color: #fff; font-size: .9rem; padding: 2px 10px; border-radius: 999px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  a.tile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    min-height: 120px; padding: 16px; text-align: center; text-decoration: none; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 16px;
+    font-size: 1.1rem; font-weight: 600; transition: transform .1s, border-color .1s;
+  }
+  a.tile:hover, a.tile:focus { border-color: var(--green); background: var(--green-soft); transform: translateY(-2px); outline: none; }
+  a.tile .icon { font-size: 2.2rem; line-height: 1; }
+  .empty {
+    background: var(--card); border: 2px dashed var(--line); border-radius: 16px;
+    padding: 20px; text-align: center; color: var(--muted);
   }
   footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 0 16px 32px; }
 </style>
@@ -31,14 +54,49 @@
 <body>
 <div class="band"></div>
 <main>
-  <h1>🌱 Graine de Palestine</h1>
-  <p class="sub">Activités interactives de français (FLE, niveau A1) pour apprenants arabophones</p>
+  <header>
+    <h1>🌱 Graine de Palestine</h1>
+    <p class="sub">Français A1 — choisis une activité</p>
+  </header>
 
-  <h2>Activités</h2>
-  <div class="list">
-    <div class="card">Les premières activités arrivent bientôt.</div>
-  </div>
+  <input class="search" id="search" type="search" placeholder="🔎 Chercher une activité…" aria-label="Chercher une activité">
+
+  <div id="units"></div>
 </main>
 <footer>Graine de Palestine</footer>
+
+<script src="activites.js"></script>
+<script>
+  const units = window.ACTIVITES || [];
+  const box = document.getElementById("units");
+  const search = document.getElementById("search");
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  }
+
+  function render(q) {
+    q = (q || "").trim().toLowerCase();
+    let html = "";
+    let found = 0;
+    for (const u of units) {
+      const list = u.activites.filter(a => !q || (a.titre + " " + u.titre).toLowerCase().includes(q));
+      if (q && !list.length) continue;
+      found += list.length;
+      html += `<section class="unit"><h2><span class="num">${esc(u.unite)}</span>${esc(u.titre || "")}</h2>`;
+      html += list.length
+        ? `<div class="grid">` + list.map(a =>
+            `<a class="tile" href="${esc(a.lien)}"><span class="icon">${esc(a.icone || "📘")}</span>${esc(a.titre)}</a>`
+          ).join("") + `</div>`
+        : `<div class="empty">Bientôt disponible</div>`;
+      html += `</section>`;
+    }
+    if (q && !found) html = `<div class="empty">Aucune activité trouvée.</div>`;
+    box.innerHTML = html;
+  }
+
+  search.addEventListener("input", () => render(search.value));
+  render();
+</script>
 </body>
 </html>
