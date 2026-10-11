@@ -5,7 +5,7 @@
 window.ACTIVITES = [
   { unite: "Unité 0", titre: "Les lettres", activites: [] },
   { unite: "Unité 1", titre: "Bonjour !", activites: [
-    { titre: "Épeler en français", icone: "🔤" }
+    { titre: "Épeler en français", lien: "epeler/", icone: "🔤" }
   ] },
   { unite: "Unité 2", titre: "Quel jour ? Quelle heure ?", activites: [] },
   { unite: "Unité 3", titre: "À l'aéroport", activites: [] },
